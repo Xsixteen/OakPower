@@ -36,30 +36,45 @@ public class InstantPowerMqttMessageListener implements Runnable {
 
     @Override
     public void run() {
-        try {
-            logger.info("Will attempt to connect to topic " + mqttTopic);
-            mqttSubscriber.config(mqttBroker, mqttPort, mqttUser, mqttPass, messageService);
-            mqttSubscriber.connect();
 
-            while (true) {
+        while (true) {
+
+            try {
+                connect();
 
                 try {
                     mqttSubscriber.subscribeMessage(mqttTopic);
+
                 } catch (Exception e) {
                     e.printStackTrace();
-                    logger.error("Exception while connecting to topic. Failed to connect! reason =" + e.getMessage());
+                    logger.error("Inner Event Loop Exception reason = " + e.getMessage());
                     logger.info("Connection died will try to reconnect in 30s");
                     mqttSubscriber.disconnect();
                     Thread.sleep(30000);
-                    mqttSubscriber.connect();
+                    connect();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.error("Connection Loop Exception reason =" + e.getMessage());
+                mqttSubscriber.disconnect();
+                logger.info("Connection died will try to reconnect in 30s");
+                try {
+                    Thread.sleep(30000);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("Exception while connecting to topic. Failed to connect! reason =" + e.getMessage());
         }
 
     }
+
+    private void connect() throws Exception {
+        logger.info("Will attempt to connect to topic " + mqttTopic);
+        mqttSubscriber.config(mqttBroker, mqttPort, mqttUser, mqttPass, messageService);
+        mqttSubscriber.connect();
+    }
+
 
     @PreDestroy
     public void onExit() {

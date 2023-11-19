@@ -43,10 +43,6 @@ public class MqttSubscriber implements MqttCallback {
         @Override
         public void connectionLost(Throwable cause) {
             logger.info("Connection Lost" + cause);
-            try {
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         public void config(String broker, Integer port, String userName, String password, MessageService messageService) throws Exception {
