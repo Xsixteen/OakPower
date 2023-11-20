@@ -21,7 +21,7 @@ public class PowerController {
                 PowerUsage powerUsage = new PowerUsage();
                 powerUsage.setCurrentPowerUsageWatts(messageService.getCurrentUsageWatts());
                 powerUsage.setUpdateTime(messageService.getUpdatedTime());
-
+                powerUsage.setEpochSeconds(messageService.getUpdatedTimeEpochSeconds());
                 return powerUsage;
         }
 }

@@ -13,6 +13,7 @@ public class MessageService {
 
     private Double currentUsageWatts;
     private String updatedTime;
+    private Long updatedTimeEpochSeconds;
 
     private static final Logger logger = LoggerFactory.getLogger(MqttSubscriber.class);
 
@@ -31,8 +32,13 @@ public class MessageService {
 
     private void updateTime() {
         this.updatedTime = new SimpleDateFormat("MM-dd-yyyy HH:mm").format(new Timestamp(System.currentTimeMillis()));
+        this.updatedTimeEpochSeconds = System.currentTimeMillis()/1000;
         logger.info("Message Service registered at : " + this.updatedTime);
 
+    }
+
+    public Long getUpdatedTimeEpochSeconds() {
+        return updatedTimeEpochSeconds;
     }
 
 }

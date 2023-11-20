@@ -4,6 +4,7 @@ public class PowerUsage {
 
     Double currentPowerUsageWatts;
     String updateTime;
+    Long epochSeconds;
 
     public Double getCurrentPowerUsageWatts() {
         return currentPowerUsageWatts;
@@ -19,5 +20,13 @@ public class PowerUsage {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Long getEpochSeconds() {
+        return epochSeconds;
+    }
+
+    public void setEpochSeconds(Long epochSeconds) {
+        this.epochSeconds = epochSeconds;
     }
 }

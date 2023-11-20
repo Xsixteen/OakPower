@@ -37,23 +37,22 @@ public class InstantPowerMqttMessageListener implements Runnable {
     @Override
     public void run() {
 
-        while (true) {
-
             try {
                 connect();
 
-                try {
-                    mqttSubscriber.subscribeMessage(mqttTopic);
+                while (true) {
+                    try {
+                        mqttSubscriber.subscribeMessage(mqttTopic);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    logger.error("Inner Event Loop Exception reason = " + e.getMessage());
-                    logger.info("Connection died will try to reconnect in 30s");
-                    mqttSubscriber.disconnect();
-                    Thread.sleep(30000);
-                    connect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        logger.error("Inner Event Loop Exception reason = " + e.getMessage());
+                        logger.info("Connection died will try to reconnect in 30s");
+                        mqttSubscriber.disconnect();
+                        Thread.sleep(30000);
+                        connect();
+                    }
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
                 logger.error("Connection Loop Exception reason =" + e.getMessage());
@@ -61,10 +60,11 @@ public class InstantPowerMqttMessageListener implements Runnable {
                 logger.info("Connection died will try to reconnect in 30s");
                 try {
                     Thread.sleep(30000);
+                    connect();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }
+
         }
 
     }
