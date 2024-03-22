@@ -60,7 +60,7 @@ public class InstantPowerMqttMessageListener implements Runnable {
                 logger.info("Connection died will try to reconnect in 30s");
                 try {
                     Thread.sleep(30000);
-                    connect();
+                    run();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
